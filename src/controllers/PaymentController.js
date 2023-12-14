@@ -13,12 +13,13 @@ exports.createPayment = async (req, res) => {
 
     if(vehicle.status !== 201) return res.status(400).send({message: 'Vehicle not found'})
     console.log(vehicle)
-    if(vehicle.body.availability === 0) return res.status(400).send({message: 'Vehicle not available'})
+    if(vehicle.body.availability === false) return res.status(400).send({message: 'Vehicle not available'})
 
     const logServiceApp = req.app.get('LogAdapter')
 
-
     const paymentMethod = await paymentRepository.create({vehicleId, paymentMethodId, userId: req.user.body.id, price: vehicle.body.price, date: new Date().toISOString()});
+    const rabbitMQAdapter = req.app.get('RabbitMQ')
+    await rabbitMQAdapter.sendToQueue(vehicleId.toString(), 'updateAvailability');
     await logServiceApp.execute('salesMicroservice', 'Payment done sucessfully' , 'success');
     return res.status(201).send(paymentMethod);
     } catch (e) {
