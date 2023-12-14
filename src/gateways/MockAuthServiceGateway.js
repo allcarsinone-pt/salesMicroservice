@@ -3,10 +3,10 @@ class MockAuthServiceGateway {
     setStatus(status) {
         this.status = status;
     }
-    async verifyToken(token) {
+    async login(token) {
         console.log(this.status)
         return {status: this.status , body: {id: '123',name: 'John Doe',email: 'test@test.com'}} 
-    
+
     }
 }
 

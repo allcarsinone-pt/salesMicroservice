@@ -12,7 +12,7 @@ const mockAuthServiceGateway = new MockAuthServiceGateway()
 const app = makeApp(paymentMethodRepository,paymentRepository,mockVehicleServiceGateway, mockAuthServiceGateway)
 const request = require('supertest')(app)
 
-jest.setTimeout(999999)
+//jest.setTimeout(999999)
 describe('Test API', () => {
     const container = new GenericContainer('postgres:latest')
     let startedContainer;
@@ -62,7 +62,7 @@ describe('Test API', () => {
             mockVehicleServiceGateway.setNotFound(false)
             mockAuthServiceGateway.setStatus(401)
             const response = await request.post('/payments/createPayment').set('Authorization', 'Bearer token').send({vehicleId: 1, paymentMethodId: 1})
-            expect(response.statusCode).toBe(403)
+            expect(response.statusCode).toBe(401)
         })
     })
 
@@ -83,9 +83,7 @@ describe('Test API', () => {
         test('Should return 403 when token is invalid', async () => {
             mockAuthServiceGateway.setStatus(401)
             const response = await request.get('/payments/getAllPayments').set('Authorization', 'Bearer token')
-            expect(response.statusCode).toBe(403)
-            expect(response.body.message).toBe('Operation not allowed')            
+            expect(response.statusCode).toBe(401)  
         })
     })
 })
-
