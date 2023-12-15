@@ -35,13 +35,13 @@ describe('Test API', () => {
 
             mockVehicleServiceGateway.setAvailability(1)
             mockVehicleServiceGateway.setNotFound(false)
-            mockAuthServiceGateway.setStatus(200)
+            mockAuthServiceGateway.setStatus(201)
 
             const response = await request.post('/payments/createPayment').set('Authorization', 'Bearer token').send({vehicleId: 1, paymentMethodId: 1})
             expect(response.statusCode).toBe(201)
         })
         test('Should return 400 when vehicle is not available', async () => {
-            mockVehicleServiceGateway.setAvailability(false)
+            mockVehicleServiceGateway.setAvailability(0)
             mockVehicleServiceGateway.setNotFound(false)
             mockAuthServiceGateway.setStatus(200)
             const response = await request.post('/payments/createPayment').set('Authorization', 'Bearer token').send({vehicleId: 1, paymentMethodId: 1})

@@ -9,7 +9,7 @@ class MockVehicleServiceGateway {
         this.notFound = notFound;
     }
   async getVehicle(id) {
-    let status = 201
+    let status = 200
     if(this.notFound) status = 404
     return {
         status,

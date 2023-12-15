@@ -6,8 +6,7 @@ const MockAuthServiceGateway = require("./src/gateways/MockAuthServiceGateway");
 const MockVehicleServiceGateway = require("./src/gateways/MockVehicleServiceGateway");
 const AxiosAuthServiceAdapter = require("./src/gateways/AxiosAuthServiceAdapter");
 const AxiosVehicleServiceAdapter = require("./src/gateways/AxiosVehicleServiceAdapter");
-//const LogMockAdapter = require("./src/gateways/LogMockAdapter");
-const ElasticLogService = require('./src/controllers/services/ElasticLogService')
+const LogMockAdapter = require("./src/gateways/LogMockAdapter");
 const RabbitMQAdapter = require("./src/gateways/RabbitMQAdapter");
 
 //const vehicleService = new MockVehicleServiceGateway();
@@ -21,7 +20,7 @@ const app = makeApp(new PaymentMethodRepository(process.env.DATABASE_URL),
                     new PaymentRepository(process.env.DATABASE_URL),
                     vehicleService, 
                     authService, 
-                    new ElasticLogService(process.env.ELASTICSEARCH_URL),
+                    new LogMockAdapter(), 
                     new RabbitMQAdapter(process.env.RABBITMQ_URI)
                 );
 
