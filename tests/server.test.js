@@ -12,7 +12,7 @@ const mockAuthServiceGateway = new MockAuthServiceGateway()
 const app = makeApp(paymentMethodRepository,paymentRepository,mockVehicleServiceGateway, mockAuthServiceGateway)
 const request = require('supertest')(app)
 
-jest.setTimeout(999999)
+//jest.setTimeout(999999)
 describe('Test API', () => {
     const container = new GenericContainer('postgres:latest')
     let startedContainer;

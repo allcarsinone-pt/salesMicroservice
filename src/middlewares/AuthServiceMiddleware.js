@@ -23,6 +23,9 @@ class AuthServiceMiddleware {
                 if(roles.length > 0 && !roles.includes(decodedToken.body.role_id)){
                     return response.status(403).json({message: "Operation not allowed"})
                 }
+
+
+                request.user = decodedToken
                 next()
         }
         
