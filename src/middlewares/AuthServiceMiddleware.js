@@ -24,3 +24,5 @@ class AuthServiceMiddleware {
         }
     }
 }
+
+module.exports = AuthServiceMiddleware
