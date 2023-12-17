@@ -12,7 +12,7 @@ const mockAuthServiceGateway = new MockAuthServiceGateway()
 const app = makeApp(paymentMethodRepository,paymentRepository,mockVehicleServiceGateway, mockAuthServiceGateway)
 const request = require('supertest')(app)
 
-//jest.setTimeout(999999)
+jest.setTimeout(999999)
 describe('Test API', () => {
     const container = new GenericContainer('postgres:latest')
     let startedContainer;
@@ -23,7 +23,6 @@ describe('Test API', () => {
         const port = startedContainer.getMappedPort(5432)
         paymentMethodRepository.baseURI = `postgresql://test:test@localhost:${port}/test_db`
         paymentRepository.baseURI = `postgresql://test:test@localhost:${port}/test_db`
-
     })
 
     afterAll(async () => {
