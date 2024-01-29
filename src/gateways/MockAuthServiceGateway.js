@@ -5,8 +5,17 @@ class MockAuthServiceGateway {
     }
     async login(token) {
         console.log(this.status)
-        return {status: this.status , body: {id: '123',name: 'John Doe',email: 'test@test.com'}} 
-
+        return {
+            status: this.status , 
+            body: {
+                id: '123',
+                name: 'John Doe',
+                email: 'test@test.com',
+                blocked: [
+                    "/payments/createPayment"
+                ]
+            }
+        } 
     }
 }
 

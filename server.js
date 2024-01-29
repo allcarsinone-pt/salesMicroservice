@@ -9,20 +9,23 @@ const AxiosVehicleServiceAdapter = require("./src/gateways/AxiosVehicleServiceAd
 //const LogMockAdapter = require("./src/gateways/LogMockAdapter");
 const ElasticLogService = require('./src/controllers/services/ElasticLogService')
 const RabbitMQAdapter = require("./src/gateways/RabbitMQAdapter");
+const MockRabbitMQ = require("./src/gateways/MockRabbitMQ");
+const LogMockAdapter = require("./src/gateways/LogMockAdapter");
 
 //const vehicleService = new MockVehicleServiceGateway();
 //vehicleService.setAvailability(1);
 
 dotenv.config();
 
-const authService = new AxiosAuthServiceAdapter(process.env.GATEWAY_URI);
+//const authService = new AxiosAuthServiceAdapter(process.env.GATEWAY_URI);
+const authService = new MockAuthServiceGateway();
 const vehicleService = new AxiosVehicleServiceAdapter(process.env.GATEWAY_URI);
 const app = makeApp(new PaymentMethodRepository(process.env.DATABASE_URL),
                     new PaymentRepository(process.env.DATABASE_URL),
                     vehicleService, 
                     authService, 
-                    new ElasticLogService(process.env.ELASTICSEARCH_URL),
-                    new RabbitMQAdapter(process.env.RABBITMQ_URI)
+                    new LogMockAdapter(),
+                    new MockRabbitMQ()
                 );
 
 app.listen(process.env.PORT || 3004, () => {
