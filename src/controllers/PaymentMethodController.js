@@ -1,4 +1,13 @@
 exports.createPaymentMethod = async (req, res) => {
+
+    const logServiceApp = req.app.get('LogAdapter')
+
+    // Prevent not allowed users to access this route
+    if(req.user.body.blocked.includes(req.originalUrl)) {
+        logServiceApp.execute('SalesServiceCreatePaymentMethod', 'You dont have permission to access this route', 'error')
+        return res.status(403).json({ message: 'You dont have permission to access this route' })
+    }
+
     const {name} = req.body;
 
     try {
@@ -17,6 +26,15 @@ exports.createPaymentMethod = async (req, res) => {
 }
 
 exports.getAllPaymentMethods = async (req, res) => {
+
+    const logServiceApp = req.app.get('LogAdapter')
+
+    // Prevent not allowed users to access this route
+    if(req.user.body.blocked.includes(req.originalUrl)) {
+        logServiceApp.execute('SalesServiceGetAllPaymentMethods', 'You dont have permission to access this route', 'error')
+        return res.status(403).json({ message: 'You dont have permission to access this route' })
+    }
+
     try {
     const paymentMethodRepository = req.app.get('PaymentMethodRepository')
     const logServiceApp = req.app.get('LogService')
@@ -31,6 +49,15 @@ exports.getAllPaymentMethods = async (req, res) => {
 }
 
 exports.deletePaymentMethod = async (req, res) => {
+
+    const logServiceApp = req.app.get('LogAdapter')
+
+    // Prevent not allowed users to access this route
+    if(req.user.body.blocked.includes(req.originalUrl)) {
+        logServiceApp.execute('SalesServiceDeletePaymentMethod', 'You dont have permission to access this route', 'error')
+        return res.status(403).json({ message: 'You dont have permission to access this route' })
+    }
+
     const {id} = req.params;
     try {
     if(!id) return res.status(400).send({message: 'id is required'})

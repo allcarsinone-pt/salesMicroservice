@@ -5,8 +5,8 @@ exports.createPayment = async (req, res) => {
 
     // Prevent not allowed users to access this route
     if(req.user.body.blocked.includes(req.originalUrl)) {
-        logServiceApp.execute('AuthServiceEdit', 'Unauthorized User', 'error')
-        return res.status(403).json({ message: 'Unauthorized User' })
+        logServiceApp.execute('SalesServiceCreatePayment', 'You dont have permission to access this route', 'error')
+        return res.status(403).json({ message: 'You dont have permission to access this route' })
     }
 
     const {vehicleId, paymentMethodId} = req.body;

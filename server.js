@@ -18,7 +18,7 @@ const LogMockAdapter = require("./src/gateways/LogMockAdapter");
 dotenv.config();
 
 //const authService = new AxiosAuthServiceAdapter(process.env.GATEWAY_URI);
-const authService = new MockAuthServiceGateway();
+const authService = new AxiosAuthServiceAdapter();
 const vehicleService = new AxiosVehicleServiceAdapter(process.env.GATEWAY_URI);
 const app = makeApp(new PaymentMethodRepository(process.env.DATABASE_URL),
                     new PaymentRepository(process.env.DATABASE_URL),
