@@ -1,5 +1,14 @@
 exports.createPayment = async (req, res) => {
 
+    
+    const logServiceApp = req.app.get('LogAdapter')
+
+    // Prevent not allowed users to access this route
+    if(req.user.body.blocked.includes(req.originalUrl)) {
+        logServiceApp.execute('SalesServiceCreatePayment', 'You dont have permission to access this route', 'error')
+        return res.status(403).json({ message: 'You dont have permission to access this route' })
+    }
+
     const {vehicleId, paymentMethodId} = req.body;
 
 
@@ -15,7 +24,6 @@ exports.createPayment = async (req, res) => {
     console.log(vehicle)
     if(vehicle.body.availability === false) return res.status(400).send({message: 'Vehicle not available'})
 
-    const logServiceApp = req.app.get('LogAdapter')
 
     const paymentMethod = await paymentRepository.create({vehicleId, paymentMethodId, userId: req.user.body.id, price: vehicle.body.price, date: new Date().toISOString()});
     const rabbitMQAdapter = req.app.get('RabbitMQ')

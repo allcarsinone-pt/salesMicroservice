@@ -20,6 +20,7 @@ class AuthServiceMiddleware {
             }
             
             request.user = decodedToken
+            console.log(decodedToken)
             next()
         }
         catch {
