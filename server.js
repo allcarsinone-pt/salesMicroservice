@@ -20,8 +20,7 @@ const vehicleService = new AxiosVehicleServiceAdapter(process.env.GATEWAY_URI);
 const app = makeApp(new PaymentMethodRepository(process.env.DATABASE_URL),
                     new PaymentRepository(process.env.DATABASE_URL),
                     vehicleService, 
-                    authService, 
-                    new ElasticLogService(process.env.ELASTICSEARCH_URL),
+                    authService,
                     new RabbitMQAdapter(process.env.RABBITMQ_URI)
                 );
 
